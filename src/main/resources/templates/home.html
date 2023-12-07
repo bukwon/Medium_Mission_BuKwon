@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>간단한 폼</h1>
+
+<button onclick="goHome()">홈</button>
+
+<form action="/login" method="post">
+    <a class="nav-link" sec:authorize="isAnonymous()"
+       th:href="@{/home/login}">로그인</a>
+    <a class="nav-link" sec:authorize="isAuthenticated()"
+       th:href="@{/home/logout}">로그아웃</a>
+</form>
+
+<button onclick="goSignup()" th:if="${#authorization.expression('isAnonymous()')}" th:href="@{/home/signup}" id="signupButton">
+    회원가입
+</button>
+
+<script>
+    function goHome() {
+        alert('홈으로 이동합니다.');
+    }
+
+    function goSignup() {
+        alert('회원가입 페이지로 이동합니다.');
+    }
+</script>
+
+</body>
+</html>
