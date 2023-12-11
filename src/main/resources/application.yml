@@ -1,5 +1,7 @@
 #DB
 spring:
+  thymeleaf:
+    cache: false
   main:
     allow-bean-definition-overriding: true
   h2:
@@ -15,8 +17,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-
     hibernate:
       ddl-auto: update
+    show-sql: true
 
 #JPA

@@ -1,0 +1,33 @@
+<!-- 레이아웃을 사용하는 경우 -->
+<html layout:decorate="~{layout}" lang="" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<!-- 레이아웃을 사용하지 않는 경우 -->
+<!-- <html lang="" xmlns:layout="http://www.w3.org/1999/xhtml"> -->
+
+<div class="flex flex-col gap-4 w-52">
+    <!-- 폼 시작 -->
+    <form th:action="@{/blog/create}" th:object="${postForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">제목</label>
+            <input type="text" th:field="*{subject}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea th:field="*{content}" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">게시글 작성</button>
+    </form>
+    <!-- 폼 종료 -->
+
+    <!-- Skeleton UI -->
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+    <div class="skeleton h-4 w-full"></div>
+    <div class="skeleton h-4 w-full"></div>
+</div>
+
+</html>
+
+<!--
+에러 메세지 뜨도록 UI 구성-->
