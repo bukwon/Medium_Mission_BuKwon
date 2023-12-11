@@ -3,6 +3,7 @@ package com.example.mediumproject.post;
 import com.example.mediumproject.comment.Comment;
 import com.example.mediumproject.comment.CommentForm;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,9 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Post> postList = this.postService.getList();
-        model.addAttribute("postList", postList);
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+        Page<Post> paging = this.postService.getList(page);
+        model.addAttribute("paging", paging);
         return "post_list";
     }
 

@@ -1,6 +1,9 @@
 package com.example.mediumproject.post;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.mediumproject.DataNotFoundException;
@@ -25,6 +28,11 @@ public class PostService {
         } else {
             throw new DataNotFoundException("post not found");
         }
+    }
+
+    public Page<Post> getList(int page) {
+        Pageable pageable = PageRequest.of(page,12);
+        return this.postRepository.findAll(pageable);
     }
 
     public void create(String subject, String content) {
