@@ -19,7 +19,8 @@
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">Logout</a></li>
+                    <li><a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">
+                        Logout</a></li>
                     <li><a>My Account</a></li>
                     <li><a th:href="@{/blog/create}">Write</a></li>
                     <li><a>Liked List</a></li>
