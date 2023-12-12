@@ -1,5 +1,133 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Style Layout</title>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #fafafa; /* Instagram-like background color */
+        }
+
+        .container {
+            max-width: 600px; /* Adjusted max-width */
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            margin: 10px;
+            background-color: #fff; /* White background for cards */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .btn-accent {
+            background-color: #4c51bf;
+            color: #ffffff;
+        }
+
+        .btn-accent:hover {
+            background-color: #434190;
+        }
+
+        .divider-primary {
+            background-color: #4c51bf;
+            height: 2px;
+            width: 50px;
+            margin: 10px auto;
+        }
+
+        .divider-or {
+            display: flex;
+            align-items: center;
+            color: #4c51bf;
+            font-weight: bold;
+            margin: 10px;
+            justify-content: center; /* 추가: 수평 가운데 정렬 */
+        }
+
+        .divider-or::before,
+        .divider-or::after {
+            content: "";
+            flex-grow: 1;
+            background-color: #4c51bf;
+            height: 1px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+<h1 class="text-4xl font-bold mb-8">Medium Blog</h1>
+
+<div class="container">
+
+    <!-- Card 1 -->
+    <div class="card">
+        <img src="https://placekitten.com/300/300" alt="Post 1">
+        <div class="p-4">
+            <h2 class="text-xl font-bold mb-2">Post Title 1</h2>
+            <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+
+    <!--card2-->
+    <div class="card">
+        <form action="/login" method="post">
+            <!-- 로그아웃 버튼 코드 생략 -->
+        </form>
+
+        <div class="flex flex-col justify-center lg:flex-row lg:space-x-4">
+            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center">
+                <button class="btn btn-accent" th:id="login" th:if="${#authorization.expression('isAnonymous()')}">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/home/login}">로그인</a>
+                </button>
+            </div>
+
+            <div class="divider-or">OR</div>
+
+            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center">
+                <button th:id="logout" th:if="${#authorization.expression('isAnonymous()')}">
+                    <a class="nav-link" th:href="@{/home/signup}">회원가입</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
@@ -72,7 +200,7 @@
 <button onclick="goHome()" class="btn btn-accent">홈</button>
 
 <form action="/login" method="post">
-    <!-- 로그아웃 버튼 코드 생략 -->
+    &lt;!&ndash; 로그아웃 버튼 코드 생략 &ndash;&gt;
 </form>
 
 <div class="flex flex-col lg:flex-row lg:space-x-4">
@@ -104,3 +232,4 @@
 </script>
 </body>
 </html>
+-->
