@@ -67,29 +67,37 @@
 <!--페이징 처리 부분-->
 <!-- 페이징처리 시작 -->
 <div th:if="${!paging.isEmpty()}">
-    <ul class="pagination justify-center mt-4 space-x-2">
+    <ul class="pagination justify-center mt-4 flex space-x-2">
         <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-            <a class="page-link"
+            <!-- Add a condition to disable the link if there is no previous page -->
+            <a th:if="${paging.hasPrevious}" class="page-link"
                th:href="@{|?page=${paging.number-1}|}">
                 <span>이전</span>
             </a>
+            <span th:unless="${paging.hasPrevious}">이전</span>
         </li>
-        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-            th:classappend="${page == paging.number} ? 'active'"
-            class="page-item">
-            <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
-        </li>
+        <!-- Adjusted logic to show 5 pages at a time -->
+        <th:block th:each="group : ${#numbers.sequence(0, (paging.totalPages/5)-1)}">
+            <th:block th:if="${group * 5 + 1 <= paging.totalPages}">
+                <li th:each="page : ${#numbers.sequence(group * 5 + 1, (group + 1) * 5)}"
+                    th:if="${page <= paging.totalPages}"
+                    th:classappend="${page == paging.number} ? 'active'"
+                    class="page-item">
+                    <!-- Use Tailwind CSS classes for styling -->
+                    <a th:text="${page}" class="join-item btn btn-square transition-colors duration-300 ease-in-out" th:href="@{|?page=${page}|}"></a>
+                </li>
+            </th:block>
+        </th:block>
         <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+            <!-- Add a condition to disable the link if there is no next page -->
+            <a th:if="${paging.hasNext}" class="join-item btn btn-square transition-colors duration-300 ease-in-out" th:href="@{|?page=${paging.number+1}|}">
                 <span>다음</span>
             </a>
+            <span th:unless="${paging.hasNext}">다음</span>
         </li>
     </ul>
 </div>
 <!-- 페이징처리 끝 -->
-        <!-- Add more buttons dynamically based on the number of pages -->
-    </div>
-</div>
 </body>
 </html>
 
