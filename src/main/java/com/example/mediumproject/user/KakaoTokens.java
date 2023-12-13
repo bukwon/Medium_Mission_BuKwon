@@ -1,14 +1,13 @@
 package com.example.mediumproject.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class KakaoTokens {
+
     @JsonProperty("access_token")
     private String accessToken;
 
