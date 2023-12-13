@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<div class="flex flex-col gap-4 w-72 bg-gray-200 p-4">
+<div class="flex flex-col gap-4 w-96 h-96 bg-gray-200 p-4">
     <!-- 내용을 입력하세요 -->
     <form th:action="@{/home/login}" method="post">
         <div th:if="${param.error}">
@@ -39,10 +39,6 @@
             <input type="password" name="password" id="password" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">로그인</button>
-        <button class="btn btn-block btn-primary gap-1">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            <span>로그인</span>
-        </button>
     </form>
 </div>
 </body>

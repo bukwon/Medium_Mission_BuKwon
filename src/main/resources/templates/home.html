@@ -14,7 +14,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 400px;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
@@ -81,7 +81,7 @@
     <!-- Card 1 -->
     <div class="card">
         <img src="멋사.png" alt="Post 1">
-        <div class="p-4">
+        <div class="p-4 mt-8">
             <h2 class="text-xl font-bold mb-2">First Blog</h2>
             <p class="text-gray-700">Create your Perfect blog!</p>
             <p class="text-gray-700">and Share with your freinds.</p>
@@ -95,7 +95,7 @@
         </form>
 
         <div class="flex flex-col justify-center">
-            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center">
+            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center mt-8">
                 <button th:id="login" th:if="${#authorization.expression('isAnonymous()')}" class="btn btn-accent py-2 px-4 w-full">
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/home/login}">로그인</a>
                 </button>

@@ -22,3 +22,14 @@ spring:
     show-sql: true
 
 #JPA
+
+#Token
+jwt:
+  secret-key: asdhgjkfgpoiqwperikxlcvn@123asfdijopewjr340198dfoij3aawodij23o1487sdfjh2398754
+
+oauth:
+  kakao:
+    client-id: 0fB9uQkvgFlDAZzpWNkAH5Lq1SSX50ff
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
