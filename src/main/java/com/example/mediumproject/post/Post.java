@@ -1,6 +1,7 @@
 package com.example.mediumproject.post;
 
 import com.example.mediumproject.comment.Comment;
+import com.example.mediumproject.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;
+
+    @ManyToOne
+    private SiteUser author;
 }
