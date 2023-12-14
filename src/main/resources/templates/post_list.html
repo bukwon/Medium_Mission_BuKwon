@@ -61,6 +61,10 @@
                 </div>
                 <p class="text-gray-700 text-base font-bold"
                    th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></p>
+                <span class="text-danger small"
+                       th:if="${#lists.size(post.commentList) > 0}">
+                        답변 수: <span th:text="${#lists.size(post.commentList)}"></span>
+                </span>
             </div>
         </div>
     </div>
