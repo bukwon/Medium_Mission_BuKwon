@@ -19,7 +19,7 @@
 
 <!-- Content -->
 <div layout:fragment="content" class="container my-3 mt-10">
-    <!-- 질문 -->
+
     <h2 class="border-b-2 py-2 text-3xl font-bold mb-4" th:text="${post.subject}"></h2>
     <div class="card my-3">
         <div class="card-body">
@@ -34,7 +34,7 @@
 
     <!-- 답변의 갯수 표시 -->
     <h5 class="border-b-2 my-3 py-2 text-xl font-bold"
-        th:text="|${#lists.size(post.commentList)}개의 답변이 있습니다.|"></h5>
+        th:text="|${#lists.size(post.commentList)}개의 댓글이 있습니다.|"></h5>
 
     <!-- 답변 반복 시작 -->
     <div class="mt-4">

@@ -51,8 +51,8 @@
         <div class="dropdown">
             <div tabindex="0" role="button" class="btn m-1">Sorted</div>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a th:href="@{|/blog/list?page=0&order=latest|}">최신순</a></li>
-                <li><a th:href="@{|/blog/list?page=0&order=oldest|}">오래된 순</a></li>
+                <li><a th:href="@{|/blog/list?page=0&order=latest|}">Latest</a></li>
+                <li><a th:href="@{|/blog/list?page=0&order=oldest|}">Oldest</a></li>
             </ul>
         </div>
     </div>
@@ -71,7 +71,7 @@
                    th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></p>
                 <span class="text-danger small"
                        th:if="${#lists.size(post.commentList) > 0}">
-                        답변 수: <span th:text="${#lists.size(post.commentList)}"></span>
+                        댓글 수: <span th:text="${#lists.size(post.commentList)}"></span>
                 </span>
             </div>
         </div>
