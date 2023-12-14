@@ -1,49 +1,10 @@
-<!--
- 레이아웃을 사용하는 경우
-<html layout:decorate="~{layout}" lang="" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    &lt;!&ndash; Add your custom styles or import additional CSS frameworks here &ndash;&gt;
-</head>
-
-&lt;!&ndash; 레이아웃을 사용하지 않는 경우 &ndash;&gt;
-&lt;!&ndash; <html lang="" xmlns:layout="http://www.w3.org/1999/xhtml"> &ndash;&gt;
-
-<div class="flex flex-col gap-4 w-72">
-    &lt;!&ndash; 폼 시작 &ndash;&gt;
-    <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
-        <div class="mb-3">
-            <label for="username" class="block text-sm font-medium text-gray-600">사용자명</label>
-            <input type="text" th:field="*{username}" id="username" name="username" class="mt-1 p-2 w-full border rounded-md">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="block text-sm font-medium text-gray-600">비밀번호</label>
-            <input type="password" th:field="*{password1}" id="password" name="password" class="mt-1 p-2 w-full border rounded-md">
-        </div>
-        <div class="mb-3">
-            <label for="confirmPassword" class="block text-sm font-medium text-gray-600">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" id="confirmPassword" name="confirmPassword" class="mt-1 p-2 w-full border rounded-md">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="block text-sm font-medium text-gray-600">이메일 주소</label>
-            <input type="email" th:field="*{email}" id="email" name="email" class="mt-1 p-2 w-full border rounded-md">
-        </div>
-        <button type="submit" class="btn btn-active btn-primary" style="color: grey">회원가입</button>
-    </form>
-    &lt;!&ndash; 폼 종료 &ndash;&gt;
-</div>
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>가운데 정렬</title>
     <style>
-        /* 추가적인 스타일을 적용할 수 있습니다. */
         body {
             display: flex;
             justify-content: center;
@@ -51,61 +12,64 @@
             height: 100vh;
             margin: 0;
         }
+
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: #4c51bf;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #434190;
+        }
     </style>
 </head>
 <body>
-<div class="flex flex-col gap-4 w-72 bg-gray-200 p-4">
-    <!-- 내용을 입력하세요 -->
+<div class="form-container">
     <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
         <div class="mb-3">
-            <label for="username" class="block text-sm font-medium text-gray-600">사용자명</label>
-            <input type="text" th:field="*{username}" id="username" name="username" class="mt-1 p-2 w-full border rounded-md">
+            <label for="username" class="form-label">사용자명</label>
+            <input type="text" th:field="*{username}" id="username" name="username" class="form-input">
         </div>
         <div class="mb-3">
-            <label for="password" class="block text-sm font-medium text-gray-600">비밀번호</label>
-            <input type="password" th:field="*{password1}" id="password" name="password" class="mt-1 p-2 w-full border rounded-md">
+            <label for="password" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password1}" id="password" name="password" class="form-input">
         </div>
         <div class="mb-3">
-            <label for="confirmPassword" class="block text-sm font-medium text-gray-600">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" id="confirmPassword" name="confirmPassword" class="mt-1 p-2 w-full border rounded-md">
+            <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{password2}" id="confirmPassword" name="confirmPassword" class="form-input">
         </div>
         <div class="mb-3">
-            <label for="email" class="block text-sm font-medium text-gray-600">이메일 주소</label>
-            <input type="email" th:field="*{email}" id="email" name="email" class="mt-1 p-2 w-full border rounded-md">
+            <label for="email" class="form-label">이메일 주소</label>
+            <input type="email" th:field="*{email}" id="email" name="email" class="form-input">
         </div>
-        <button type="submit" class="btn btn-active btn-primary" style="color: grey">회원가입</button>
+        <button type="submit" class="btn btn-active btn-primary" style="color: black">회원가입</button>
     </form>
 </div>
 </body>
 </html>
-<!--
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" lang="ko">
-<div layout:fragment="content" class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
-        </div>
-    </div>
-    <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
-        <div class="mb-3">
-            <label for="username" class="form-label">사용자ID</label>
-            <input type="text" th:field="*{username}" name="id">
-        </div>
-        <div class="mb-3">
-            <label for="password1" class="form-label">비밀번호</label>
-            <input type="password" th:field="*{password1}" name="pwd1">
-        </div>
-        <div class="mb-3">
-            <label for="password2" class="form-label">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" name="pwd2">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">이메일</label>
-            <input type="text" th:field="*{email}" name="email">
-        </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
-    </form>
-
-
-</div>
-</html>-->

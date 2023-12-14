@@ -25,7 +25,7 @@ spring:
 
 #Token
 jwt:
-  secret-key: asdhgjkfgpoiqwperikxlcvn@123asfdijopewjr340198dfoij3aawodij23o1487sdfjh2398754
+  secret-key: secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
 
 oauth:
   kakao:

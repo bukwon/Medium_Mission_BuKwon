@@ -6,52 +6,51 @@
     <!-- Add your custom styles or import additional CSS frameworks here -->
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-<div class="border-4 border-indigo-600">
-    <div class="navbar bg-base-100">
-        <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h7"/>
-                    </svg>
-                </div>
-                <ul tabindex="0"
-                    class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">
-                        Logout</a></li>
-                    <li><a>My Account</a></li>
-                    <li><a th:href="@{/blog/create}">Write</a></li>
-                    <li><a>Liked List</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="navbar-center">
-            <a class="btn btn-ghost text-xl">MediumBlog</a>
-        </div>
-        <div class="navbar-end">
-            <button class="btn btn-ghost btn-circle">
+<div class="navbar bg-base-100 fixed top-0 w-full z-10">
+    <div class="navbar-start">
+        <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                          d="M4 6h16M4 12h16M4 18h7"/>
                 </svg>
-            </button>
-            <button class="btn btn-ghost btn-circle">
-                <div class="indicator">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                    </svg>
-                    <span class="badge badge-xs badge-primary indicator-item"></span>
-                </div>
-            </button>
+            </div>
+            <ul tabindex="0"
+                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">
+                    Logout</a></li>
+                <li><a>My Account</a></li>
+                <li><a th:href="@{/blog/create}">Write</a></li>
+                <li><a>Liked List</a></li>
+            </ul>
         </div>
     </div>
+    <div class="navbar-center">
+        <a class="btn btn-ghost text-xl" th:href="@{/blog/list(page=0)}" style="color: #6366F1;">MediumBlog</a>
+    </div>
+    <div class="navbar-end">
+        <button class="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </button>
+        <button class="btn btn-ghost btn-circle">
+            <div class="indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </button>
+    </div>
 </div>
-<div class="container mx-auto mt-8 flex-1 flex justify-center">
+
+<div class="container mx-auto mt-20 flex-1 flex justify-center">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <!-- 각각의 포스트를 나타내는 부분 -->
         <div th:each="post : ${paging}" class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -60,12 +59,13 @@
                     <!-- 게시글 제목과 링크 -->
                     <a th:href="@{|/blog/detail/${post.id}|}" th:text="${post.subject}" class="text-indigo-600"></a>
                 </div>
-                <p class="text-gray-700 text-base"
+                <p class="text-gray-700 text-base font-bold"
                    th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
         </div>
     </div>
 </div>
+
 <div th:if="${!paging.isEmpty()}" class="pagination-container mt-4">
     <ul class="flex justify-center">
         <li class="mr-2" th:classappend="${paging.number == 0} ? 'opacity-50 cursor-not-allowed' : ''">
@@ -93,36 +93,5 @@
         </li>
     </ul>
 </div>
-
-<!--<div th:if="${!paging.isEmpty()}">-->
-<!--    <ul class="pagination justify-center mt-4 flex space-x-2">-->
-<!--        <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
-<!--            &lt;!&ndash; Add a condition to disable the link if there is no previous page &ndash;&gt;-->
-<!--            <a th:if="${paging.hasPrevious}" class="page-link"-->
-<!--               th:href="@{|?page=${paging.number-1}|}">-->
-<!--                <span>이전</span>-->
-<!--            </a>-->
-<!--            <span th:unless="${paging.hasPrevious}">이전</span>-->
-<!--        </li>-->
-<!--        &lt;!&ndash; Adjusted logic to show 5 pages at a time &ndash;&gt;-->
-<!--        <th:block th:each="group : ${#numbers.sequence(0, (paging.totalPages/5)-1)}">-->
-<!--            <th:block th:if="${group * 5 + 1 <= paging.totalPages}">-->
-<!--                <li th:each="page : ${#numbers.sequence(group * 5 + 1, (group + 1) * 5)}"-->
-<!--                    th:if="${page <= paging.totalPages}"-->
-<!--                    th:classappend="${page == paging.number} ? 'active'"-->
-<!--                    class="page-item">-->
-<!--                    &lt;!&ndash; Use Tailwind CSS classes for styling &ndash;&gt;-->
-<!--                    <a th:text="${page}" class="join-item btn btn-square transition-colors duration-300 ease-in-out" th:href="@{|?page=${page}|}"></a>-->
-<!--                </li>-->
-<!--            </th:block>-->
-<!--        </th:block>-->
-<!--        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
-<!--            &lt;!&ndash; Add a condition to disable the link if there is no next page &ndash;&gt;-->
-<!--            <a th:if="${paging.hasNext}" class="join-item btn btn-square transition-colors duration-300 ease-in-out" th:href="@{|?page=${paging.number+1}|}">-->
-<!--                <span>다음</span>-->
-<!--            </a>-->
-<!--            <span th:unless="${paging.hasNext}">다음</span>-->
-<!--        </li>-->
-<!--    </ul>-->
-<!--</div>-->
-<!-- 페이징처리 끝 -->
+</body>
+</html>

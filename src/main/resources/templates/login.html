@@ -1,45 +1,109 @@
-<!--<html layout:decorate="~{layout}" xmlns="">
-<div layout:fragment="content" class="container my-3">
-
-</div>
-</html>-->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Login Page</title>
     <style>
-        /* 추가적인 스타일을 적용할 수 있습니다. */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #fafafa;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-login {
+            margin-top: 1.5rem;
+            border-top: 1px solid #ccc;
+            padding-top: 1.5rem;
+        }
+
+        .social-login-btn {
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: #4c51bf;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #434190;
         }
     </style>
 </head>
-<body>
-<div class="flex flex-col gap-4 w-96 h-96 bg-gray-200 p-4">
-    <!-- 내용을 입력하세요 -->
+
+<body class="bg-gray-100">
+
+<div class="login-container">
+    <h1 class="text-4xl font-bold mb-8">로그인</h1>
+
     <form th:action="@{/home/login}" method="post">
         <div th:if="${param.error}">
-            <div class="alert alert-danger">
+            <div class="text-red-500 mb-4">
                 사용자ID 또는 비밀번호를 확인해 주세요.
             </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="username" class="form-label">사용자ID</label>
-            <input type="text" name="username" id="username" class="form-control">
+            <input type="text" name="username" id="username" class="form-input" required>
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="password" class="form-label">비밀번호</label>
-            <input type="password" name="password" id="password" class="form-control">
+            <input type="password" name="password" id="password" class="form-input" required>
         </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
+
+        <button type="submit" class="btn-primary">로그인</button>
+
+        <!-- 추가된 부분: 소셜 로그인 영역 -->
+        <div class="social-login">
+            <span>소셜로 로그인</span>
+
+            <!-- 추가된 부분: 네이버 로그인 버튼 -->
+            <a th:href="@{/login/naver}" class="social-login-btn btn-primary">
+                <i class="fab fa-2x fa-naver"></i> 네이버로 로그인
+            </a>
+
+            <!-- 추가된 부분: 카카오 로그인 버튼 -->
+            <a th:href="@{/login/kakao}" class="social-login-btn btn-primary">
+                <i class="fab fa-2x fa-kakao"></i> 카카오로 로그인
+            </a>
+        </div>
+
     </form>
 </div>
+
 </body>
+
+
 </html>
