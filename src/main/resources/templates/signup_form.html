@@ -51,6 +51,7 @@
 </head>
 <body>
 <div class="form-container">
+    <h1 class="text-4xl font-bold mb-8">회원가입</h1>
     <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">사용자명</label>
@@ -68,7 +69,7 @@
             <label for="email" class="form-label">이메일 주소</label>
             <input type="email" th:field="*{email}" id="email" name="email" class="form-input">
         </div>
-        <button type="submit" class="btn btn-active btn-primary" style="color: black">회원가입</button>
+        <button type="submit" class="btn btn-active btn-primary font-bold" style="color: black">회원가입</button>
     </form>
 </div>
 </body>
