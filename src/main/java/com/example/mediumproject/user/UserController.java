@@ -30,10 +30,18 @@ public class UserController {
             bindingResult.rejectValue("password2", "passwordInCorrect", "패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
+        /*if(this.userService.findByUserName(userCreateForm.getUsername()).isPresent()) {
+            bindingResult.rejectValue("username", "usernameIncorrect", "사용자가 일치하지 않습니다.");
+            return "signup_form";
+        }
+        if(!userCreateForm.getEmail().equals(userCreateForm.getEmail())) {
+            bindingResult.rejectValue("id", "idInCorrect", "id가 일치하지 않습니다.");
+            return "signup_form";
+        }*/
         userService.create(userCreateForm.getUsername(),
                 userCreateForm.getEmail(), userCreateForm.getPassword1());
 
-        return "redirect:/";
+        return "redirect:/blog/list";
     }
 
     @GetMapping("/login")

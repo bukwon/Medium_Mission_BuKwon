@@ -53,6 +53,7 @@
 <div class="form-container">
     <h1 class="text-4xl font-bold mb-8">회원가입</h1>
     <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <div class="mb-3">
             <label for="username" class="form-label">사용자명</label>
             <input type="text" th:field="*{username}" id="username" name="username" class="form-input">
