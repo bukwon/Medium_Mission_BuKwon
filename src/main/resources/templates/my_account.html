@@ -41,24 +41,24 @@
         </ul>
     </div>
     <div class="flex-1">
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <a class="btn btn-ghost text-xl" th:href="@{/blog/list(page=0)}" style="color: #6366F1;">MediumBlog</a>
     </div>
     <div class="flex-none">
-        <button class="btn btn-square btn-ghost">
+        <button class="btn btn-square btn-ghost" >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
         </button>
     </div>
 </div>
 
-<form>
+<form class="mt-12">
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
+            <h1 class="text-base font-semibold leading-7 text-gray-900">Profile</h1>
             <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                    <label for="username" class="block text-sm font-medium leading-6 text-gray-900" >Username</label>
+                    <label class="block text-sm font-medium leading-6 text-gray-900" >Username</label>
                     <p class="mt-1 text-sm leading-6 text-gray-600 ">
                         <span th:text="${username}"></span>
                     </p>
@@ -67,16 +67,28 @@
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                    <label for="username" class="block text-sm font-medium leading-6 text-gray-900" >email</label>
+                    <label class="block text-sm font-medium leading-6 text-gray-900" >email</label>
                     <p class="mt-1 text-sm leading-6 text-gray-600 ">
                         <span th:text="${email}"></span>
                     </p>
                 </div>
             </div>
+
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                    <label class="block text-sm font-medium leading-6 text-gray-900">MemberShip</label>
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn m-1">MemberShip</div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>for-free</a></li>
+                            <li><a>Item 2</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>
-
 </body>
 
 
@@ -86,50 +98,6 @@
 
 
 
-<!--여긴 나중에 개인정보 변경할 때 사용-->
-<!--<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Settings</title>
-    &lt;!&ndash; Add your styles or link to external stylesheets here &ndash;&gt;
-</head>
-<body>
-<h2>Account Settings</h2>
 
-<form action="/home/account" method="post">
 
-    &lt;!&ndash; 사용자 이름 입력 &ndash;&gt;
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" th:value="${username}" required>
-    </div>
-
-    &lt;!&ndash; 이메일 입력 &ndash;&gt;
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" th:value="${email}" required>
-    </div>
-
-    &lt;!&ndash; 비밀번호 변경을 위한 입력 &ndash;&gt;
-    <div>
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" minlength="8">
-    </div>
-
-    <div>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" minlength="8">
-    </div>
-
-    &lt;!&ndash; 저장 버튼 &ndash;&gt;
-    <div>
-        <button type="submit">Save Changes</button>
-    </div>
-</form>
-
-&lt;!&ndash; Add your scripts or link to external scripts here &ndash;&gt;
-</body>
-</html>-->
 
