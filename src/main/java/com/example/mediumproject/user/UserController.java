@@ -2,11 +2,16 @@ package com.example.mediumproject.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.security.Principal;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Controller
@@ -48,4 +53,15 @@ public class UserController {
     public String login(){
         return "login";
     }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/account")
+    public String myAccount(Principal principal, Model model) {
+        String username = principal.getName();
+        SiteUser siteUser = this.userService.getUser(username);
+        model.addAttribute("username", siteUser.getUsername());
+        model.addAttribute("email", siteUser.getEmail());
+        return "my_account";
+    }   // 내 계정으로 파싱
 }

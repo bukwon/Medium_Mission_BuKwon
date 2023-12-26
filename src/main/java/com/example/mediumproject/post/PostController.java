@@ -71,12 +71,6 @@ public class PostController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/account")
-    public String myAccount() {
-        return "my_account";
-    }   // 내 계정으로 파싱
-
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/storage")
     public String storageList() {
         return "storage";

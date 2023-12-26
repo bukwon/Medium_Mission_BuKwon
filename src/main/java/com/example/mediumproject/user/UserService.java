@@ -38,5 +38,12 @@ public class UserService {
         return siteUser;
     }
 
-
+    public SiteUser getId(Long id) {
+        Optional<SiteUser> siteUser = this.userRepository.findById(id);
+        if(siteUser.isPresent()) {
+            return siteUser.get();
+        } else {
+            throw new DataNotFoundException("siteuser not found");
+        }
+    }
 }
