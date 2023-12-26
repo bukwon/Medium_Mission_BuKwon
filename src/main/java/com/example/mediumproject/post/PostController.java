@@ -26,9 +26,11 @@ public class PostController {
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
-                       @RequestParam(value="order", defaultValue = "latest") String order) {
-        Page<Post> paging = this.postService.getList(page, order);
+                       @RequestParam(value="order", defaultValue = "latest") String order,
+                       @RequestParam(value = "kw", defaultValue = "") String kw) {
+        Page<Post> paging = this.postService.getList(page, order, kw);
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
         return "post_list";
     }
 
@@ -92,7 +94,7 @@ public class PostController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.postService.modify(post, postForm.getSubject(), postForm.getContent());
-        return String.format("redirect:/post/detail/%s", id);
+        return String.format("redirect:/blog/detail/%s", id);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -105,4 +107,13 @@ public class PostController {
         this.postService.delete(post);
         return "redirect:/blog/list";
     }   // 수정 쪽은 post
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String postVote(Principal principal, @PathVariable("id") Integer id) {
+        Post post = this.postService.getPost(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.postService.vote(post, siteUser);
+        return String.format("redirect:/blog/detail/%s", id);}
 }

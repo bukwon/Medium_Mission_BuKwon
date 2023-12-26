@@ -23,7 +23,7 @@
     <h2 class="border-b-2 py-2 text-3xl font-bold mb-4" th:text="${post.subject}"></h2>
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text text-lg" style="white-space: pre-line;" th:text="${post.content}"></div>
+            <div class="card-text text-lg" style="white-space: pre-line;" th:utext="${@commonUtil.markdown(post.content)}"></div>
             <div class="flex justify-end mt-4">
                 <!--블로그 수정 시간 표시-->
                 <div th:if="${post.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
@@ -39,6 +39,10 @@
                 </div>
             </div>
             <div class="my-3">
+                <a href="javascript:void(0);" class="recommend btn btn-link" th:data-uri="@{|/blog/vote/${post.id}|}">
+                    추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(post.voter)}"></span>
+                </a>
                 <a th:href="@{|/blog/modify/${post.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author.username}"
@@ -58,6 +62,7 @@
     <!-- 답변 반복 시작 -->
     <div class="mt-4">
         <div th:each="comment : ${post.commentList}" class="mb-4">
+            <a th:id="|comment_${comment.id}|"></a>
             <div class="max-w-sm rounded overflow-hidden shadow-lg">
                 <div class="px-6 py-4">
                     <div class="card-text text-base" style="white-space: pre-line;" th:text="${comment.content}"></div>
@@ -74,6 +79,10 @@
                         </div>
                     </div>
                     <div class="my-3">
+                        <a href="javascript:void(0);" class="recommend btn btn-link" th:data-uri="@{|/comment/vote/${comment.id}|}">
+                            추천
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(comment.voter)}"></span>
+                        </a>
                         <a th:href="@{|/comment/modify/${comment.id}|}" class="btn btn-sm btn-outline-secondary"
                            sec:authorize="isAuthenticated()"
                            th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}"
@@ -106,6 +115,15 @@
             }
         });
     });
+
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if(confirm("정말로 추천하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            }
+        })
+    })
 </script>
 
 </body>

@@ -27,7 +27,7 @@
                             <i class="fa-solid fa-right-from-bracket"></i>
                             Logout</a></li>
                 </div>
-                <li><a th:href="@{/blog/account}">
+                <li><a th:href="@{/blog/acco    unt}">
                     <i class="fa-solid fa-person"></i>My Account</a></li>
                 <li><a th:href="@{/blog/create}">
                     <i class="fa-solid fa-pen"></i>Write</a></li>
@@ -40,13 +40,48 @@
         <a class="btn btn-ghost text-xl" th:href="@{/blog/list(page=0)}" style="color: #6366F1;">MediumBlog</a>
     </div>
     <div class="navbar-end">
-        <button class="btn btn-ghost btn-circle">
+
+        <!--검색-->
+        <button class="btn btn-ghost btn-circle" id="searchButton">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
         </button>
+
+        <!-- 검색 입력 창 -->
+        <div class="flex items-center" id="searchBox" style="display: none;">
+            <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="mr-2" th:value="${kw}">
+            <button id="searchSubmit" class="btn btn-primary">검색</button>
+        </div>
+
+        <form th:action="@{/blog/list}" method="get" id="searchForm">
+            <input type="hidden" id="kw" name="kw" th:value="${kw}">
+            <input type="hidden" id="page" name="page" th:value="${paging.number}">
+        </form>
+        <script>
+            var searchButton = document.getElementById('searchButton');
+            var searchBox = document.getElementById('searchBox');
+            var searchInput = document.getElementById('searchInput');
+            var searchSubmit = document.getElementById('searchSubmit');
+
+            searchButton.addEventListener('click', function () {
+                // 검색 입력 창 토글
+                searchBox.style.display = (searchBox.style.display === 'none' || searchBox.style.display === '') ? 'flex' : 'none';
+            });
+
+            searchSubmit.addEventListener('click', function () {
+                // 검색 기능 구현
+                var searchTerm = searchInput.value;
+                console.log('검색어:', searchTerm);
+
+                // 검색 창 닫기 (선택 사항)
+                searchBox.style.display = 'none';
+            });
+        </script>
+        <!--검색-->
+
         <button class="btn btn-ghost btn-circle">
             <div class="indicator">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -57,6 +92,7 @@
                 <span class="badge badge-xs badge-primary indicator-item"></span>
             </div>
         </button>
+
 
         <div class="dropdown">
             <div tabindex="0" role="button" class="btn m-1">Sorted</div>
@@ -118,5 +154,6 @@
         </li>
     </ul>
 </div>
+
 </body>
 </html>
