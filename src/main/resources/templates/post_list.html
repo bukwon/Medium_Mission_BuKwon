@@ -39,6 +39,8 @@
     <div class="navbar-center">
         <a class="btn btn-ghost text-xl" th:href="@{/blog/list(page=0)}" style="color: #6366F1;">MediumBlog</a>
     </div>
+
+
     <div class="navbar-end">
 
         <!--검색-->
@@ -50,16 +52,16 @@
             </svg>
         </button>
 
-        <!-- 검색 입력 창 -->
         <div class="flex items-center" id="searchBox" style="display: none;">
             <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="mr-2" th:value="${kw}">
             <button id="searchSubmit" class="btn btn-primary">검색</button>
         </div>
 
-        <form th:action="@{/blog/list}" method="get" id="searchForm">
+        <form th:action="@{/blog/list}" method="get" id="searchForm" style="flex-direction: column;">
             <input type="hidden" id="kw" name="kw" th:value="${kw}">
             <input type="hidden" id="page" name="page" th:value="${paging.number}">
         </form>
+
         <script>
             var searchButton = document.getElementById('searchButton');
             var searchBox = document.getElementById('searchBox');
@@ -67,8 +69,15 @@
             var searchSubmit = document.getElementById('searchSubmit');
 
             searchButton.addEventListener('click', function () {
-                // 검색 입력 창 토글
-                searchBox.style.display = (searchBox.style.display === 'none' || searchBox.style.display === '') ? 'flex' : 'none';
+                if (searchBox.style.display === 'none' || searchBox.style.display === '') {
+                    // 검색 입력 창 표시
+                    searchBox.style.display = 'flex';
+                    searchButton.disabled = true;  // 검색 버튼 비활성화
+                } else {
+                    // 검색 입력 창 숨김
+                    searchBox.style.display = 'none';
+                    searchButton.disabled = false;  // 검색 버튼 활성화
+                }
             });
 
             searchSubmit.addEventListener('click', function () {
@@ -78,6 +87,7 @@
 
                 // 검색 창 닫기 (선택 사항)
                 searchBox.style.display = 'none';
+                searchButton.disabled = false;  // 검색 버튼 활성화
             });
         </script>
         <!--검색-->
@@ -94,8 +104,8 @@
         </button>
 
 
-        <div class="dropdown">
-            <div tabindex="0" role="button" class="btn m-1">Sorted</div>
+        <div class="dropdown" id="sortedDropdown">
+            <div tabindex="0" role="button" class="btn m-1" onclick="toggleDropdown()">Sorted</div>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a th:href="@{|/blog/list?page=0&order=latest|}">Latest</a></li>
                 <li><a th:href="@{|/blog/list?page=0&order=oldest|}">Oldest</a></li>
@@ -130,7 +140,7 @@
 <div th:if="${!paging.isEmpty()}" class="pagination-container mt-4">
     <ul class="flex justify-center">
         <li class="mr-2" th:classappend="${paging.number == 0} ? 'opacity-50 cursor-not-allowed' : ''">
-            <a class="py-2 px-4 bg-gray-300 rounded text-gray-600"
+            <a class="py-2 px-4 bg-gray-300 rounded text-g-ray600 page-link"
                th:href="${paging.number > 0} ? @{|?page=${paging.number-1}|} : null"
                aria-label="Previous">
                 이전
@@ -154,6 +164,33 @@
         </li>
     </ul>
 </div>
+<script layout:fragment="script" type='text/javascript'>
+    const page_elements = document.getElementById("searchSubmit");
+    Array.from(page_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+    const btn_search = document.getElementById("searchSubmit");
+    btn_search.addEventListener('click', function() {
+        document.getElementById('kw').value = document.getElementById('searchButton').value;
+        document.getElementById('page').value = 0;
+        document.getElementById('searchForm').submit();
+    });
+
+    function toggleDropdown() {
+        var dropdown = document.getElementById('sortedDropdown');
+        var dropdownContent = dropdown.querySelector('.dropdown-content');
+
+        // dropdown-content를 토글
+        if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+            dropdownContent.style.display = 'block';
+        } else {
+            dropdownContent.style.display = 'none';
+        }
+    }
+</script>
 
 </body>
 </html>
