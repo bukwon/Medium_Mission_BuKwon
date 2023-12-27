@@ -2,6 +2,7 @@ package com.example.mediumproject.post;
 
 import com.example.mediumproject.post.Post;
 import com.example.mediumproject.post.PostRepository;
+import com.example.mediumproject.user.SiteUser;
 import com.example.mediumproject.user.UserService;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,8 @@ class MediumProjectApplicationTests {
         for (int i = 1; i < 50; i++) {
             String subject = String.format("테스트 블로그입니다:[%03d]",i);
             String content = "내용 무";
-            this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i)));
+            Boolean ROLE_PAID = false;
+            this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i),ROLE_PAID));
         }
     }
 

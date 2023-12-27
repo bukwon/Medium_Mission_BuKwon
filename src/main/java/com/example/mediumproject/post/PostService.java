@@ -80,6 +80,7 @@ public class PostService {
         p.setContent(content);
         p.setCreateDate(LocalDateTime.now());
         p.setAuthor(user);
+        p.setROLE_PAID(user.getROLE_PAID());
         this.postRepository.save(p);
     }
 

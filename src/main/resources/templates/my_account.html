@@ -76,12 +76,22 @@
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
+                    <label class="block text-sm font-medium leading-6 text-gray-900">Your Stauts</label>
+                    <a th:if="${user.ROLE_PAID}==true">🪙 Membership</a>
+                    <a th:if="${user.ROLE_PAID}==false">🖋️ for-free</a>
+                </div>
+                <!--여기 부분에 for-free냐 membership이냐 아이콘을 나누고 싶어-->
+            </div>
+
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
                     <label class="block text-sm font-medium leading-6 text-gray-900">MemberShip</label>
                     <div class="dropdown">
-                        <div tabindex="0" role="button" class="btn m-1">MemberShip</div>
+                        <div tabindex="0" role="button" class="btn m-1">Status</div>
                         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a>for-free</a></li>
-                            <li><a>Item 2</a></li>
+                            <li><a href="/home/membership?isPaid=false">for-free</a></li>
+                            <!-- 'href'에 해당하는 URL은 실제로는 컨트롤러에서 처리해야 하는 엔드포인트로 수정이 필요할 수 있습니다. -->
+                            <li><a href="/home/membership?isPaid=true">Membership</a></li>
                         </ul>
                     </div>
                 </div>

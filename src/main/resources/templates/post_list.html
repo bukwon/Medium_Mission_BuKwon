@@ -132,6 +132,7 @@
                 </span>
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span th:if="${post.author != null}" th:text="${post.author.username}"></span>   <!--글쓴이 만들기-->
+                <div><i th:if="${post.ROLE_PAID}">🪙Membership</i></div>
             </div>
         </div>
     </div>

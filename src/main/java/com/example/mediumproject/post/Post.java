@@ -36,4 +36,6 @@ public class Post {
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    private Boolean ROLE_PAID;
 }
