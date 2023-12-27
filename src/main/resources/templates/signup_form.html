@@ -72,14 +72,10 @@
             <label for="email" class="form-label">이메일 주소</label>
             <input type="email" th:field="*{email}" id="email" name="email" class="form-input">
         </div>
-        <details class="dropdown">
-            <summary class="m-1 btn">멤버쉽 진행</summary>
-            <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                <li><a>for-free</a></li>
-                <li><a>Membership</a></li>
-            </ul>
-        </details>
         <button type="submit" class="btn btn-active btn-primary font-bold" style="color: whitesmoke">회원가입</button>
+        <div role="alert" class="alert mt-3">
+            <span>※ 유료 맴버 서비스는 My Account에서 확인해주시길 바랍니다.※</span>
+        </div>
     </form>
 </div>
 </body>

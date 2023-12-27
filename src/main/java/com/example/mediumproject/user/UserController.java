@@ -44,7 +44,7 @@ public class UserController {
             return "signup_form";
         }
 
-
+        userCreateForm.setROLE_PAID(false);
         userService.create(userCreateForm.getUsername(),
                 userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getROLE_PAID());
 
