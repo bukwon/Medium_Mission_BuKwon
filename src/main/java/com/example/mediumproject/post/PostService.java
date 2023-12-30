@@ -2,6 +2,7 @@ package com.example.mediumproject.post;
 
 import com.example.mediumproject.comment.Comment;
 import com.example.mediumproject.user.SiteUser;
+import com.example.mediumproject.user.UserRepository;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -29,6 +32,7 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     private Specification<Post> search(String kw) {
         return new Specification<>() {
@@ -60,19 +64,39 @@ public class PostService {
         }
     }
 
-    public Page<Post> getList(int page ,String order, String kw) {
-        Pageable pageable;
-        if (order.equals("latest")) {
-            pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
-        } else if (order.equals("oldest")) {
-            pageable = PageRequest.of(page, 12, Sort.by("createDate").ascending());
+    public Page<Post> getList(int page, String order, String kw, Boolean isPaid) {
+        Pageable pageable = null;
+
+        SiteUser siteUser = getCurrentUser();
+
+        // 람다 표현식 내에서 사용할 final 변수를 생성합니다.
+        final boolean isPaidValue = (isPaid == null) ? siteUser.getROLE_PAID() : isPaid;
+
+        if (!isPaidValue) {
+            if (order.equals("latest")) {
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
+            } else if (order.equals("oldest")) {
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").ascending());
+            } else {
+                // 기본적으로 최신순으로 설정
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
+            }
         } else {
-            // 기본적으로 최신순으로 설정
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         }
-        Specification<Post> spec = search(kw);
+
+        Specification<Post> spec = (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.equal(root.get("ROLE_PAID"), !isPaidValue);
+            if (kw != null && !kw.isEmpty()) {
+                Predicate kwPredicate = criteriaBuilder.like(root.get("yourField"), "%" + kw + "%");
+                predicate = criteriaBuilder.and(predicate, kwPredicate);
+            }
+            return predicate;
+        };
+
         return this.postRepository.findAll(spec, pageable);
     }
+
 
     public void create(String subject, String content, SiteUser user) {
         Post p = new Post();
@@ -98,5 +122,14 @@ public class PostService {
     public void vote(Post post, SiteUser siteUser) {
         post.getVoter().add(siteUser);
         this.postRepository.save(post);
+    }
+
+    private SiteUser getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Optional<SiteUser> optionalUser = userRepository.findByUsername(authentication.getName());
+        return optionalUser.orElse(null);
     }
 }

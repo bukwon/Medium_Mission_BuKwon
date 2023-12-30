@@ -1,12 +1,13 @@
 package com.example.mediumproject.post;
 
-import com.example.mediumproject.comment.CommentForm;
 import com.example.mediumproject.user.SiteUser;
 import com.example.mediumproject.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,22 +21,34 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @Controller
 public class PostController {
-
     private final PostService postService;
     private final UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
-                       @RequestParam(value="order", defaultValue = "latest") String order,
-                       @RequestParam(value = "kw", defaultValue = "") String kw) {
-        Page<Post> paging = this.postService.getList(page, order, kw);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "order", defaultValue = "latest") String order,
+                       @RequestParam(value = "kw", defaultValue = "") String kw,
+                       @RequestParam(value = "isPaid", defaultValue = "") Boolean isPaid,
+                       @AuthenticationPrincipal UserDetails userDetails) {
+        // 사용자가 인증되었고 ROLE_PAID를 가지고 있는지 확인
+        if (userDetails != null && userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_PAID"))) {
+            // 사용자가 ROLE_PAID를 가지고 있다면
+            isPaid = true;
+        } else {
+            // 사용자가 ROLE_PAID를 가지고 있지 않다면
+            isPaid = false;
+        }
+        Page<Post> paging = this.postService.getList(page, order, kw, isPaid);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
+        model.addAttribute("isPaid", isPaid);
+
         return "post_list";
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, CommentForm commentForm) {
+    public String detail(Model model, @PathVariable("id") Integer id) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
         return "post_detail";
