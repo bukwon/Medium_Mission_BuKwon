@@ -47,9 +47,6 @@ public class PostService {
             }
         };
     }
-    public List<Post> getList() {
-        return this.postRepository.findAll();
-    }
 
     public Post getPost(Integer id) {
         Optional<Post> post = this.postRepository.findById(id);
@@ -62,6 +59,7 @@ public class PostService {
 
     public Page<Post> getList(int page ,String order, String kw) {
         Pageable pageable;
+
         if (order.equals("latest")) {
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         } else if (order.equals("oldest")) {
