@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -59,6 +61,7 @@ public class PostService {
             throw new DataNotFoundException("post not found");
         }
     }
+<<<<<<< HEAD
     // 세션을 통한 로그인 지속 구현
     public Page<Post> getList(int page , String order, String kw) {
         Pageable pageable;
@@ -67,13 +70,42 @@ public class PostService {
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         } else if (order.equals("oldest")) {
             pageable = PageRequest.of(page, 12, Sort.by("createDate").ascending());
+=======
+
+    public Page<Post> getList(int page, String order, String kw, Boolean isPaid) {
+        Pageable pageable = null;
+
+        SiteUser siteUser = getCurrentUser();
+
+        // 람다 표현식 내에서 사용할 final 변수를 생성합니다.
+        final boolean isPaidValue = (isPaid == null) ? siteUser.getROLE_PAID() : isPaid;
+
+        if (!isPaidValue) {
+            if (order.equals("latest")) {
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
+            } else if (order.equals("oldest")) {
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").ascending());
+            } else {
+                // 기본적으로 최신순으로 설정
+                pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
+            }
+>>>>>>> dce80ed6a5017fc6e502097e39b6e0da1ebb56a2
         } else {
-            // 기본적으로 최신순으로 설정
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         }
-        Specification<Post> spec = search(kw);
+
+        Specification<Post> spec = (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.equal(root.get("ROLE_PAID"), !isPaidValue);
+            if (kw != null && !kw.isEmpty()) {
+                Predicate kwPredicate = criteriaBuilder.like(root.get("yourField"), "%" + kw + "%");
+                predicate = criteriaBuilder.and(predicate, kwPredicate);
+            }
+            return predicate;
+        };
+
         return this.postRepository.findAll(spec, pageable);
     }
+
 
     public void create(String subject, String content, SiteUser user) {
         Post p = new Post();
@@ -99,5 +131,14 @@ public class PostService {
     public void vote(Post post, SiteUser siteUser) {
         post.getVoter().add(siteUser);
         this.postRepository.save(post);
+    }
+
+    private SiteUser getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Optional<SiteUser> optionalUser = userRepository.findByUsername(authentication.getName());
+        return optionalUser.orElse(null);
     }
 }
