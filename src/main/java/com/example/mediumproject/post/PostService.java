@@ -2,6 +2,7 @@ package com.example.mediumproject.post;
 
 import com.example.mediumproject.comment.Comment;
 import com.example.mediumproject.user.SiteUser;
+import com.example.mediumproject.user.UserRepository;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import jakarta.persistence.criteria.Root;
 
 import com.example.mediumproject.DataNotFoundException;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,7 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     private Specification<Post> search(String kw) {
         return new Specification<>() {
@@ -56,8 +59,8 @@ public class PostService {
             throw new DataNotFoundException("post not found");
         }
     }
-
-    public Page<Post> getList(int page ,String order, String kw) {
+    // 세션을 통한 로그인 지속 구현
+    public Page<Post> getList(int page , String order, String kw) {
         Pageable pageable;
 
         if (order.equals("latest")) {
