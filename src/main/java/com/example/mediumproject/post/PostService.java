@@ -3,7 +3,6 @@ package com.example.mediumproject.post;
 import com.example.mediumproject.comment.Comment;
 import com.example.mediumproject.user.SiteUser;
 import com.example.mediumproject.user.UserRepository;
-import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +20,8 @@ import jakarta.persistence.criteria.Root;
 
 import com.example.mediumproject.DataNotFoundException;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +70,9 @@ public class PostService {
             // 기본적으로 최신순으로 설정
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         }
+
         Specification<Post> spec = search(kw);
+//        spec.equals()   // 선택2
         return this.postRepository.findAll(spec, pageable);
     }
 

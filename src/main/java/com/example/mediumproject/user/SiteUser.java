@@ -27,4 +27,8 @@ public class SiteUser {
     private String email;
 
     private Boolean ROLE_PAID;
+
+    boolean isRolePaid() {
+        return this.getROLE_PAID();
+    }
 }

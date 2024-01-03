@@ -4,7 +4,9 @@ import com.example.mediumproject.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -13,7 +15,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    public SiteUser create(String username, String email, String password, Boolean ROLE_PAID)
+    public SiteUser create(String username, String email, String password, boolean ROLE_PAID)
     {
         SiteUser user = new SiteUser();
         user.setUsername(username);
@@ -31,5 +33,18 @@ public class UserService {
         } else {
             throw new DataNotFoundException("siteuser not found");
         }
+    }
+
+    public boolean hasPaidAccess(Principal principal) {
+        if (principal == null) {
+            return false;
+        }
+
+        Authentication authentication = (Authentication) principal;
+
+        return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority ->
+                        grantedAuthority.getAuthority().equals("ROLE_PAID") ||
+                                grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
     }
 }

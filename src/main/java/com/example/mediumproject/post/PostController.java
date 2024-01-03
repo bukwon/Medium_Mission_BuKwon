@@ -1,7 +1,8 @@
 package com.example.mediumproject.post;
 
-import com.example.mediumproject.comment.CommentForm;
+
 import com.example.mediumproject.user.SiteUser;
+import com.example.mediumproject.user.UserRepository;
 import com.example.mediumproject.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RequestMapping("/blog")
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class PostController {
 
     private final PostService postService;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
@@ -35,9 +38,18 @@ public class PostController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
+
+        boolean hasAccess = principal != null &&
+                (post.getAuthor().getUsername().equals(principal.getName()) ||
+                        userService.hasPaidAccess(principal));
+
+        // 유료 콘텐츠이면서 접근 권한이 없는 경우
+        if (post.getROLE_PAID() && !hasAccess) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유료회원 전용 콘텐츠입니다.");
+        }
         return "post_detail";
     }
 

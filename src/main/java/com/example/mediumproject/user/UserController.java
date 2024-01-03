@@ -78,11 +78,11 @@ public class UserController {
             user.setROLE_PAID(isPaid);
             p.setROLE_PAID(isPaid);     // post에도 유료화인지 아닌지 저장
             userRepository.save(user);
-            /*ResponseEntity.ok("Membership status updated successfully");*/
+
             return "redirect:/home/account";
         } else {
             return "redirect:/home/login";
-                    /*ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found")*/
+
         }
     }   // Get -> Post
 }

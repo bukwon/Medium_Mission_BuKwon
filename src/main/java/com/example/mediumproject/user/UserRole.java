@@ -6,8 +6,7 @@ import lombok.Getter;
 public enum UserRole {
     ADMIN("ROLE_ADMIN"),
     USER("ROLE_USER"),
-    ROLE_PAID("ROLE_PAID"),
-    ROLE_FREE("ROLE_FREE");
+    ROLE_PAID("ROLE_PAID");
 
     UserRole(String value) {
         this.value = value;
