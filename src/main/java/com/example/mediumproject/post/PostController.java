@@ -29,14 +29,23 @@ public class PostController {
     private final UserRepository userRepository;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page,
-                       @RequestParam(value="order", defaultValue = "latest") String order,
+    public String list(Model model,
+                       @RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "order", defaultValue = "latest") String order,
                        @RequestParam(value = "kw", defaultValue = "") String kw) {
+
+        // 추가: order 값이 null이면 빈 문자열로 처리
+        if (order == null || order.equals("null")) {
+            order = "";
+        }
+
         Page<Post> paging = this.postService.getList(page, order, kw);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
+        model.addAttribute("order", order);  // 추가: order 값을 모델에 추가
         return "post_list";
     }
+
 
     @GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, Principal principal, CommentForm commentForm) {

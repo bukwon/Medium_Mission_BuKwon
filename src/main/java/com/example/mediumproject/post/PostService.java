@@ -66,6 +66,10 @@ public class PostService {
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
         } else if (order.equals("oldest")) {
             pageable = PageRequest.of(page, 12, Sort.by("createDate").ascending());
+        } else if (order.equals("recommend")) {
+            pageable = PageRequest.of(page, 12, Sort.by("voteNum").descending());
+        }else if (order.equals("unrecommend")) {
+            pageable = PageRequest.of(page, 12, Sort.by("voteNum").ascending());
         } else {
             // 기본적으로 최신순으로 설정
             pageable = PageRequest.of(page, 12, Sort.by("createDate").descending());
