@@ -92,23 +92,12 @@
         </script>
         <!--검색-->
 
-        <button class="btn btn-ghost btn-circle">
-            <div class="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-                <span class="badge badge-xs badge-primary indicator-item"></span>
-            </div>
-        </button>
-
-
-        <div class="dropdown" id="sortedDropdown">
+        <div class="dropdown m1-auto mx-10" id="sortedDropdown">
             <div tabindex="0" role="button" class="btn m-1" onclick="toggleDropdown()">Sorted</div>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a th:href="@{|/blog/list?page=0&order=latest|}">Latest</a></li>
                 <li><a th:href="@{|/blog/list?page=0&order=oldest|}">Oldest</a></li>
+
             </ul>
         </div>
     </div>
@@ -130,6 +119,11 @@
                     <i class="fa-solid fa-comment"></i>
                         <span th:text="${#lists.size(post.commentList)}"></span>        <!--블로그 리스트 댓글 수 확인-->
                 </span>
+                <span class="text-danger small"
+                      th:if="${#lists.size(post.voter) > 0}">
+                   <i class="fa-regular fa-thumbs-up"></i>
+                        <span th:text="${#lists.size(post.voteNum)}"></span>        <!--블로그 리스트 댓글 수 확인-->
+                </span>
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span th:if="${post.author != null}" th:text="${post.author.username}"></span>   <!--글쓴이 만들기-->
                 <div><i th:if="${post.ROLE_PAID}">🪙Membership</i></div>
@@ -138,11 +132,12 @@
     </div>
 </div>
 
+<!-- 페이지 네비게이션 부분 수정 -->
 <div th:if="${!paging.isEmpty()}" class="pagination-container mt-4">
     <ul class="flex justify-center">
         <li class="mr-2" th:classappend="${paging.number == 0} ? 'opacity-50 cursor-not-allowed' : ''">
             <a class="py-2 px-4 bg-gray-300 rounded text-g-ray600 page-link"
-               th:href="${paging.number > 0} ? @{|?page=${paging.number-1}|} : null"
+               th:href="${paging.number > 0} ? @{|/blog/list?page=${paging.number-1}&kw=${kw}&order=${order == null or order == 'null' ? '' : order}|} : null"
                aria-label="Previous">
                 이전
             </a>
@@ -154,11 +149,11 @@
             class="mr-2">
             <a th:text="${page + 1}" class="py-2 px-4 rounded"
                th:class="${page == paging.number} ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600'"
-               th:href="@{|?page=${page}|}"></a>
+               th:href="@{|/blog/list?page=${page}&kw=${kw}&order=${order == null or order == 'null' ? '' : order}|}"></a>
         </li>
         <li class="ml-2" th:classappend="${!paging.hasNext} ? 'opacity-50 cursor-not-allowed' : ''">
             <a class="py-2 px-4 bg-gray-300 rounded text-gray-600"
-               th:href="${paging.hasNext} ? @{|?page=${paging.number+1}|} : null"
+               th:href="${paging.hasNext} ? @{|/blog/list?page=${paging.number+1}&kw=${kw}&order=${order == null or order == 'null' ? '' : order}|} : null"
                aria-label="Next">
                 다음
             </a>

@@ -59,7 +59,7 @@ public class PostService {
         }
     }
     // 세션을 통한 로그인 지속 구현
-    public Page<Post> getList(int page , String order, String kw) {
+    public Page<Post> getList(int page, String order, String kw) {
         Pageable pageable;
 
         if (order.equals("latest")) {
@@ -72,7 +72,6 @@ public class PostService {
         }
 
         Specification<Post> spec = search(kw);
-//        spec.equals()   // 선택2
         return this.postRepository.findAll(spec, pageable);
     }
 
@@ -82,6 +81,7 @@ public class PostService {
         p.setContent(content);
         p.setCreateDate(LocalDateTime.now());
         p.setAuthor(user);
+        p.setUserName(user.getUsername());
         p.setROLE_PAID(user.getROLE_PAID());
         this.postRepository.save(p);
     }
@@ -99,6 +99,7 @@ public class PostService {
 
     public void vote(Post post, SiteUser siteUser) {
         post.getVoter().add(siteUser);
+        post.setVoteNum(+1);
         this.postRepository.save(post);
     }
 }

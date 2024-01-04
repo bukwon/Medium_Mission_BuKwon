@@ -1,6 +1,7 @@
 package com.example.mediumproject.post;
 
 
+import com.example.mediumproject.comment.CommentForm;
 import com.example.mediumproject.user.SiteUser;
 import com.example.mediumproject.user.UserRepository;
 import com.example.mediumproject.user.UserService;
@@ -38,7 +39,7 @@ public class PostController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, Principal principal) {
+    public String detail(Model model, @PathVariable("id") Integer id, Principal principal, CommentForm commentForm) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 

@@ -26,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
@@ -34,12 +36,12 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult
-                         bindingResult) {
-        if(bindingResult.hasErrors()) {
+            bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "signup_form";
         }
 
-        if(!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
+        if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", "패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
@@ -52,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
@@ -69,17 +71,16 @@ public class UserController {
     }   // 내 계정으로 파싱
 
     @GetMapping("/membership")  // get은 뷰하거나 리다이렉트(간혹) post는 IDU 할 때--> redirect
-    public String updateMembership(Principal principal, @RequestParam boolean isPaid)
-    {
-        Post p = new Post();
+    public String updateMembership(Principal principal, @RequestParam boolean isPaid, Model model) {
         Optional<SiteUser> optionalUser = userRepository.findByUsername(principal.getName());
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             SiteUser user = optionalUser.get();
             user.setROLE_PAID(isPaid);
-            p.setROLE_PAID(isPaid);     // post에도 유료화인지 아닌지 저장
             userRepository.save(user);
 
-            return "redirect:/home/account";
+            model.addAttribute("membershipUpdateMessage", "Membership status updated: " + (isPaid ? "Membership" : "for-free"));
+
+            return "redirect:/home/logout";
         } else {
             return "redirect:/home/login";
 

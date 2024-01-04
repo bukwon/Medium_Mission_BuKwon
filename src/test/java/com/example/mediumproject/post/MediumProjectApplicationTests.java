@@ -27,10 +27,16 @@ class MediumProjectApplicationTests {
 
     @Test
     void testJpa() {
-        for (int i = 1; i < 50; i++) {
-            String subject = String.format("테스트 블로그입니다:[%03d]",i);
+        for (int i = 1; i <= 100; i++) {
+            String subject = String.format("무료글:[%03d]",i);
             String content = "내용 무";
-            Boolean ROLE_PAID = false;
+            boolean ROLE_PAID = false;
+            this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i),ROLE_PAID));
+        }
+        for (int i = 101; i < 201; i++) {
+            String subject = String.format("유료글:[%03d]",i);
+            String content = "내용 무";
+            boolean ROLE_PAID = true;
             this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i),ROLE_PAID));
         }
     }
