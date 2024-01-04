@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -43,7 +43,7 @@
 
     <div class="navbar-end">
 
-        <!--검색-->
+        <!-- 검색 -->
         <button class="btn btn-ghost btn-circle" id="searchButton">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -53,44 +53,15 @@
         </button>
 
         <div class="flex items-center" id="searchBox" style="display: none;">
-            <input type="text" id="searchInput" placeholder="검색어를 입력하세요" class="mr-2" th:value="${kw}">
-            <button id="searchSubmit" class="btn btn-primary">검색</button>
+            <input type="text" id="search_kw" placeholder="검색어를 입력하세요" class="mr-2" th:value="${kw}">
+            <button id="btn_search" class="btn btn-primary">검색</button>
         </div>
 
         <form th:action="@{/blog/list}" method="get" id="searchForm" style="flex-direction: column;">
             <input type="hidden" id="kw" name="kw" th:value="${kw}">
             <input type="hidden" id="page" name="page" th:value="${paging.number}">
         </form>
-
-        <script>
-            var searchButton = document.getElementById('searchButton');
-            var searchBox = document.getElementById('searchBox');
-            var searchInput = document.getElementById('searchInput');
-            var searchSubmit = document.getElementById('searchSubmit');
-
-            searchButton.addEventListener('click', function () {
-                if (searchBox.style.display === 'none' || searchBox.style.display === '') {
-                    // 검색 입력 창 표시
-                    searchBox.style.display = 'flex';
-                    searchButton.disabled = true;  // 검색 버튼 비활성화
-                } else {
-                    // 검색 입력 창 숨김
-                    searchBox.style.display = 'none';
-                    searchButton.disabled = false;  // 검색 버튼 활성화
-                }
-            });
-
-            searchSubmit.addEventListener('click', function () {
-                // 검색 기능 구현
-                var searchTerm = searchInput.value;
-                console.log('검색어:', searchTerm);
-
-                // 검색 창 닫기 (선택 사항)
-                searchBox.style.display = 'none';
-                searchButton.disabled = false;  // 검색 버튼 활성화
-            });
-        </script>
-        <!--검색-->
+        <!-- 검색 -->
 
         <div class="dropdown m1-auto mx-10" id="sortedDropdown">
             <div tabindex="0" role="button" class="btn m-1" onclick="toggleDropdown()">Sorted</div>
@@ -172,20 +143,13 @@
     </ul>
 </div>
 <script layout:fragment="script" type='text/javascript'>
-    const page_elements = document.getElementById("searchSubmit");
-    Array.from(page_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
+    const page_elements = document.getElementsByClassName("searchSubmit");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
             document.getElementById('page').value = this.dataset.page;
             document.getElementById('searchForm').submit();
         });
     });
-    const btn_search = document.getElementById("searchSubmit");
-    btn_search.addEventListener('click', function() {
-        document.getElementById('kw').value = document.getElementById('searchButton').value;
-        document.getElementById('page').value = 0;
-        document.getElementById('searchForm').submit();
-    });
-
     function toggleDropdown() {
         var dropdown = document.getElementById('sortedDropdown');
         var dropdownContent = dropdown.querySelector('.dropdown-content');
@@ -197,6 +161,39 @@
             dropdownContent.style.display = 'none';
         }
     }
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+        document.getElementById('searchForm').submit();
+    });
+
+    var searchButton = document.getElementById('searchButton');
+    var searchBox = document.getElementById('searchBox');
+    var searchInput = document.getElementById('search_kw');
+    var searchSubmit = document.getElementById('searchSubmit');
+
+    searchButton.addEventListener('click', function () {
+        if (searchBox.style.display === 'none' || searchBox.style.display === '') {
+            // 검색 입력 창 표시
+            searchBox.style.display = 'flex';
+            searchButton.disabled = true;  // 검색 버튼 비활성화
+        } else {
+            // 검색 입력 창 숨김
+            searchBox.style.display = 'none';
+            searchButton.disabled = false;  // 검색 버튼 활성화
+        }
+    });
+
+    searchSubmit.addEventListener('click', function () {
+        // 검색 기능 구현
+        var searchTerm = searchInput.value;
+        console.log('검색어:', searchTerm);
+
+        // 검색 창 닫기 (선택 사항)
+        searchBox.style.display = 'none';
+        searchButton.disabled = false;  // 검색 버튼 활성화
+    });
 </script>
 
 </body>
