@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: #4c51bf;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1 class="text-4xl font-bold mb-8">회원가입</h1>
+    <form th:action="@{/home/signup}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자명</label>
+            <input type="text" th:field="*{username}" id="username" name="username" class="form-input">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password1}" id="password" name="password" class="form-input">
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{password2}" id="confirmPassword" name="confirmPassword" class="form-input">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일 주소</label>
+            <input type="email" th:field="*{email}" id="email" name="email" class="form-input">
+        </div>
+        <button type="submit" class="btn btn-active btn-primary font-bold" style="color: black">회원가입</button>
+    </form>
+</div>
+</body>
+</html>

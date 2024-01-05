@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #fafafa;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 300px; /* Adjust the width as needed */
+            height: 400px; /* Adjust the height as needed */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 50%;
+            object-fit: cover;
+        }
+
+        .btn-accent {
+            background-color: #4c51bf;
+            color: #ffffff;
+        }
+
+        .btn-accent:hover {
+            background-color: #434190;
+        }
+
+        .divider-or {
+            display: flex;
+            align-items: center;
+            color: #4c51bf;
+            font-weight: bold;
+            margin: 10px;
+            justify-content: center;
+        }
+
+        .divider-or::before,
+        .divider-or::after {
+            content: "";
+            flex-grow: 1;
+            background-color: #4c51bf;
+            height: 1px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+<h1 class="text-4xl font-bold mb-8">Medium Blog</h1>
+
+<div class="container">
+
+    <!-- Card 1 -->
+    <div class="card">
+        <img src="멋사.png" alt="Post 1">
+        <div class="p-4 mt-8">
+            <h2 class="text-xl font-bold mb-2">First Blog</h2>
+            <p class="text-gray-700">Create your Perfect blog!</p>
+            <p class="text-gray-700">and Share with your freinds.</p>
+        </div>
+    </div>
+
+    <!--card2-->
+    <div class="card">
+        <form action="/login" method="post">
+            <!-- 로그아웃 버튼 코드 생략 -->
+        </form>
+
+        <div class="flex flex-col justify-center">
+            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center mt-8">
+                <button th:id="login" th:if="${#authorization.expression('isAnonymous()')}" class="btn btn-accent py-2 px-4 w-full">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/home/login}">로그인</a>
+                </button>
+            </div>
+
+            <div class="divider-or">OR</div>
+
+            <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex flex-col items-center justify-center">
+                <button th:id="logout" th:if="${#authorization.expression('isAnonymous()')}" class="block btn btn-accent py-2 px-4 w-full">
+                    <a class="nav-link" th:href="@{/home/signup}">회원가입</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .divider {
+            border-top: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-accent {
+            background-color: #4c51bf;
+            color: #ffffff;
+        }
+
+        .btn-accent:hover {
+            background-color: #434190;
+        }
+
+        .divider-primary {
+            background-color: #4c51bf;
+            height: 2px;
+            width: 50px;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+<h1 class="text-4xl font-bold mb-8">First Blog</h1>
+
+<button onclick="goHome()" class="btn btn-accent">홈</button>
+
+<form action="/login" method="post">
+    &lt;!&ndash; 로그아웃 버튼 코드 생략 &ndash;&gt;
+</form>
+
+<div class="flex flex-col lg:flex-row lg:space-x-4">
+    <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex items-center justify-center">
+        <button class="btn btn-accent" th:id="login" th:if="${#authorization.expression('isAnonymous()')}">
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/home/login}">로그인</a>
+        </button>
+    </div>
+
+    <div class="divider-primary mx-4"></div>
+
+    <div class="flex-grow h-32 card bg-white rounded-lg p-6 flex items-center justify-center">
+        <button th:id="logout" th:if="${#authorization.expression('isAnonymous()')}">
+            <a class="nav-link" th:href="@{/home/signup}">회원가입</a>
+        </button>
+    </div>
+</div>
+
+<div class="skeleton w-32 h-32 my-8"></div>
+
+<script>
+    function goHome() {
+        alert('홈으로 이동합니다.');
+    }
+
+    function goSignup() {
+        alert('회원가입 페이지로 이동합니다.');
+    }
+</script>
+</body>
+</html>
+-->
