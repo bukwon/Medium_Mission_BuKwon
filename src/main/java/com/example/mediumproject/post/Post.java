@@ -3,11 +3,14 @@ package com.example.mediumproject.post;
 import com.example.mediumproject.comment.Comment;
 import com.example.mediumproject.user.SiteUser;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,4 +33,15 @@ public class Post {
 
     @ManyToOne
     private SiteUser author;
+
+    private String userName;
+
+    private LocalDateTime modifyDate;
+
+    @ManyToMany
+    Set<SiteUser> voter;
+
+    private Boolean ROLE_PAID;
+
+    private Integer voteNum;
 }

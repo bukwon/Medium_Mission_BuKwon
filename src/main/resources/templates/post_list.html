@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Add your custom styles or import additional CSS frameworks here -->
@@ -18,41 +21,55 @@
             </div>
             <ul tabindex="0"
                 class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">
-                    Logout</a></li>
-                <li><a>My Account</a></li>
-                <li><a th:href="@{/blog/create}">Write</a></li>
-                <li><a>Liked List</a></li>
+                <div style="float: right">
+                    <li>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/home/logout}">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout</a></li>
+                </div>
+                <li><a th:href="@{/home/account}">
+                    <i class="fa-solid fa-person"></i>My Account</a></li>
+                <li><a th:href="@{/blog/create}">
+                    <i class="fa-solid fa-pen"></i>Write</a></li>
+                <li><a th:href="@{/blog/storage}">
+                    <i class="fa-solid fa-heart"></i>Liked List</a></li>
             </ul>
         </div>
     </div>
     <div class="navbar-center">
         <a class="btn btn-ghost text-xl" th:href="@{/blog/list(page=0)}" style="color: #6366F1;">MediumBlog</a>
     </div>
+
+
     <div class="navbar-end">
-        <button class="btn btn-ghost btn-circle">
+
+        <!-- 검색 -->
+        <button class="btn btn-ghost btn-circle" id="searchButton">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
         </button>
-        <button class="btn btn-ghost btn-circle">
-            <div class="indicator">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-                <span class="badge badge-xs badge-primary indicator-item"></span>
-            </div>
-        </button>
 
-        <div class="dropdown">
-            <div tabindex="0" role="button" class="btn m-1">Sorted</div>
+        <div class="flex items-center" id="searchBox" style="display: none;">
+            <input type="text" id="search_kw" placeholder="검색어를 입력하세요" class="mr-2" th:value="${kw}">
+            <button id="btn_search" class="btn btn-primary">검색</button>
+        </div>
+
+        <form th:action="@{/blog/list}" method="get" id="searchForm" style="flex-direction: column;">
+            <input type="hidden" id="kw" name="kw" th:value="${kw}">
+            <input type="hidden" id="page" name="page" th:value="${paging.number}">
+        </form>
+        <!-- 검색 -->
+
+        <div class="dropdown m1-auto mx-10" id="sortedDropdown">
+            <div tabindex="0" role="button" class="btn m-1" onclick="toggleDropdown()">Sorted</div>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                 <li><a th:href="@{|/blog/list?page=0&order=latest|}">Latest</a></li>
                 <li><a th:href="@{|/blog/list?page=0&order=oldest|}">Oldest</a></li>
+                <li><a th:href="@{|/blog/list?page=0&order=recommend|}">Like-up</a></li>
+                <li><a th:href="@{|/blog/list?page=0&order=unrecommend|}">Like-down</a></li>
             </ul>
         </div>
     </div>
@@ -63,47 +80,121 @@
         <!-- 각각의 포스트를 나타내는 부분 -->
         <div th:each="post : ${paging}" class="max-w-sm rounded overflow-hidden shadow-lg">
             <div class="px-6 py-4">
-                <div class="font-bold text-xl mb-2">
+                <div class="font-bold text-xl mb-5">
                     <!-- 게시글 제목과 링크 -->
                     <a th:href="@{|/blog/detail/${post.id}|}" th:text="${post.subject}" class="text-indigo-600"></a>
                 </div>
-                <p class="text-gray-700 text-base font-bold"
-                   th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></p>
+                <p class="text-gray-700 text-base font-bold mb-5"
+                   th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></p>     <!--블로그 제작 날짜 확인-->
                 <span class="text-danger small"
-                       th:if="${#lists.size(post.commentList) > 0}">
-                        댓글 수: <span th:text="${#lists.size(post.commentList)}"></span>
+                      th:if="${#lists.size(post.commentList) > 0}">
+                    <i class="fa-solid fa-comment"></i>
+                        <span th:text="${#lists.size(post.commentList)}"></span>        <!--블로그 리스트 댓글 수 확인-->
                 </span>
+                <span class="text-danger small"
+                      th:if="${#lists.size(post.voter) > 0}">
+                   <i class="fa-regular fa-thumbs-up"></i>
+                        <span th:text="${#lists.size(post.voteNum)}"></span>        <!--블로그 리스트 댓글 수 확인-->
+                </span>
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span th:if="${post.author != null}" th:text="${post.author.username}"></span>   <!--글쓴이 만들기-->
+                <div><i th:if="${post.ROLE_PAID}">🪙Membership</i></div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- 페이지 네비게이션 부분 수정 -->
 <div th:if="${!paging.isEmpty()}" class="pagination-container mt-4">
     <ul class="flex justify-center">
+        <!-- 이전 페이지 -->
         <li class="mr-2" th:classappend="${paging.number == 0} ? 'opacity-50 cursor-not-allowed' : ''">
-            <a class="py-2 px-4 bg-gray-300 rounded text-gray-600"
-               th:href="${paging.number > 0} ? @{|?page=${paging.number-1}|} : null"
+            <!-- 이전 페이지 링크 생성 -->
+            <a th:with="prevPage=${paging.number - 1}, orderValue=${order == null or order == 'null' ? '' : order}"
+               class="py-2 px-4 bg-gray-300 rounded text-g-gray600 page-link"
+               th:href="${paging.number > 0} ? @{|/blog/list?page=${prevPage}&kw=${kw}&order=${orderValue}|} : null"
                aria-label="Previous">
                 이전
             </a>
         </li>
 
+        <!-- 페이지 번호 -->
         <li th:each="page: ${#numbers.sequence(paging.number-5, paging.number+5)}"
             th:if="${page >= 0 and page < paging.totalPages}"
             th:classappend="${page == paging.number} ? 'active' : ''"
             class="mr-2">
-            <a th:text="${page + 1}" class="py-2 px-4 rounded"
+            <!-- 페이지 번호 링크 생성 -->
+            <a th:with="orderValue=${order == null or order == 'null' ? '' : order}"
+               th:text="${page + 1}" class="py-2 px-4 rounded"
                th:class="${page == paging.number} ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600'"
-               th:href="@{|?page=${page}|}"></a>
+               th:href="@{|/blog/list?page=${page}&kw=${kw}&order=${orderValue}|}"></a>
         </li>
+
+        <!-- 다음 페이지 -->
         <li class="ml-2" th:classappend="${!paging.hasNext} ? 'opacity-50 cursor-not-allowed' : ''">
-            <a class="py-2 px-4 bg-gray-300 rounded text-gray-600"
-               th:href="${paging.hasNext} ? @{|?page=${paging.number+1}|} : null"
+            <!-- 다음 페이지 링크 생성 -->
+            <a th:with="nextPage=${paging.number + 1}, orderValue=${order == null or order == 'null' ? '' : order}"
+               class="py-2 px-4 bg-gray-300 rounded text-gray-600"
+               th:href="${paging.hasNext} ? @{|/blog/list?page=${nextPage}&kw=${kw}&order=${orderValue}|} : null"
                aria-label="Next">
                 다음
             </a>
         </li>
     </ul>
 </div>
+<script layout:fragment="script" type='text/javascript'>
+    const page_elements = document.getElementsByClassName("searchSubmit");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+    function toggleDropdown() {
+        var dropdown = document.getElementById('sortedDropdown');
+        var dropdownContent = dropdown.querySelector('.dropdown-content');
+
+        // dropdown-content를 토글
+        if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+            dropdownContent.style.display = 'block';
+        } else {
+            dropdownContent.style.display = 'none';
+        }
+    }
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+        document.getElementById('searchForm').submit();
+    });
+
+    var searchButton = document.getElementById('searchButton');
+    var searchBox = document.getElementById('searchBox');
+    var searchInput = document.getElementById('search_kw');
+    var searchSubmit = document.getElementById('searchSubmit');
+
+    searchButton.addEventListener('click', function () {
+        if (searchBox.style.display === 'none' || searchBox.style.display === '') {
+            // 검색 입력 창 표시
+            searchBox.style.display = 'flex';
+            searchButton.disabled = true;  // 검색 버튼 비활성화
+        } else {
+            // 검색 입력 창 숨김
+            searchBox.style.display = 'none';
+            searchButton.disabled = false;  // 검색 버튼 활성화
+        }
+    });
+
+    searchSubmit.addEventListener('click', function () {
+        // 검색 기능 구현
+        var searchTerm = searchInput.value;
+        console.log('검색어:', searchTerm);
+
+        // 검색 창 닫기 (선택 사항)
+        searchBox.style.display = 'none';
+        searchButton.disabled = false;  // 검색 버튼 활성화
+    });
+</script>
+
 </body>
 </html>

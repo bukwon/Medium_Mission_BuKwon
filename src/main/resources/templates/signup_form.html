@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
     <style>
         body {
             display: flex;
@@ -14,7 +15,8 @@
         }
 
         .form-container {
-            max-width: 400px;
+            width: 80%;
+            max-width: 600px;
             margin: 0 auto;
             background-color: #fff;
             padding: 2rem;
@@ -70,7 +72,10 @@
             <label for="email" class="form-label">이메일 주소</label>
             <input type="email" th:field="*{email}" id="email" name="email" class="form-input">
         </div>
-        <button type="submit" class="btn btn-active btn-primary font-bold" style="color: black">회원가입</button>
+        <button type="submit" class="btn btn-active btn-primary font-bold" style="color: whitesmoke">회원가입</button>
+        <div role="alert" class="alert mt-3">
+            <span>※ 유료 맴버 서비스는 My Account에서 확인해주시길 바랍니다.※</span>
+        </div>
     </form>
 </div>
 </body>

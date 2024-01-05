@@ -14,4 +14,6 @@ public class PostForm {
 
     @NotEmpty(message = "내용을 입력해주세요")
     private String content;
+
+    private Boolean ROLE_PAID;  // 게시물 멤버쉽 혹은 무료 선택
 }
