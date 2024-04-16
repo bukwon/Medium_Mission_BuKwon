@@ -3,6 +3,7 @@ package com.example.mediumproject.domain.user.controller;
 import com.example.mediumproject.domain.post.dao.PostRepository;
 import com.example.mediumproject.domain.user.dto.UserCreateForm;
 import com.example.mediumproject.domain.user.dao.UserRepository;
+import com.example.mediumproject.domain.user.service.KakaoService;
 import com.example.mediumproject.domain.user.service.UserService;
 import com.example.mediumproject.domain.user.entity.SiteUser;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @RequestMapping("/home")
 public class UserController {
     private final UserService userService;
+    private final KakaoService kakaoService;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,7 +55,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
         return "login";
     }
 
