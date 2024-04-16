@@ -1,17 +1,9 @@
 package com.example.mediumproject.post;
 
-import com.example.mediumproject.post.Post;
-import com.example.mediumproject.post.PostRepository;
-import com.example.mediumproject.user.SiteUser;
-import com.example.mediumproject.user.UserService;
-import org.apache.catalina.User;
+import com.example.mediumproject.domain.post.service.PostService;
+import com.example.mediumproject.domain.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 

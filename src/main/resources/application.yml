@@ -39,4 +39,3 @@ oauth:
     url:
       auth: https://nid.naver.com
       api: https://openapi.naver.com
-
