@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )))
                 .formLogin((formLogin) -> formLogin.loginPage("/home/login")
                         .loginProcessingUrl("/home/login")  // 405 --> home 디렉토리 추가 안할 시 기본 /login으로 파싱 ..()
-                        .defaultSuccessUrl("/blog/list"))    // 로그인 성공시 home루트로 돌아가지만 나중에 다듬도록 하자
+                        .defaultSuccessUrl("/blog"))    // 로그인 성공시 home루트로 돌아가지만 나중에 다듬도록 하자
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/home/logout"))
                         .logoutSuccessUrl("/home")
                         .invalidateHttpSession(true));

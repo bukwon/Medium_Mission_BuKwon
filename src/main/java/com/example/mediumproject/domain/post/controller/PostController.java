@@ -30,7 +30,7 @@ public class PostController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    @GetMapping("/list")
+    @GetMapping
     public String list(Model model,
                        @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "order", defaultValue = "latest") String order,
@@ -74,10 +74,13 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) {
+        System.out.println("create생성 거쳤습니다.");
         if(bindingResult.hasErrors()) {
             return "post_form";
         }
+        System.out.println("로그인 유효성 검사 통과");
         SiteUser siteUser = this.userService.getUser(principal.getName());
+        System.out.println("블로그 생성할 때 login 상태 유효성은 검사합니다" + siteUser);
         this.postService.create(postForm.getSubject(), postForm.getContent(), siteUser);
         return "redirect:/blog/list";   // 게시글 적은 후 돌아갈 url
     }
