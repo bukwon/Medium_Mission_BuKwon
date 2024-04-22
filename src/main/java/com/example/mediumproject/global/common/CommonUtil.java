@@ -1,4 +1,4 @@
-package com.example.mediumproject.global;
+package com.example.mediumproject.global.common;
 
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Component;

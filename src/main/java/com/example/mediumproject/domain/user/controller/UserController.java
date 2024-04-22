@@ -56,7 +56,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
+        model.addAttribute("kakaoUrl", kakaoService.getKakaoUrl());
         return "login";
     }
 
