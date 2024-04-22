@@ -3,15 +3,12 @@ package com.example.mediumproject.domain.user.controller;
 import com.example.mediumproject.domain.user.dto.KakaoDto;
 import com.example.mediumproject.domain.user.entity.SiteUser;
 import com.example.mediumproject.domain.user.service.KakaoService;
-import com.example.mediumproject.global.common.MsgEntity;
 import com.example.mediumproject.global.security.SecurityUser;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.lang.reflect.Member;
 
 import static com.example.mediumproject.domain.user.entity.SocialProvider.KAKAO;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
