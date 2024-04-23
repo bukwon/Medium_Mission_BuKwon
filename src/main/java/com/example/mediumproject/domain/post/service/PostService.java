@@ -87,6 +87,7 @@ public class PostService {
         p.setAuthor(user);
         p.setUserName(user.getUsername());
         p.setROLE_PAID(user.getROLE_PAID());
+        System.out.println("블로그 생성 테스트입니다." + p);
         this.postRepository.save(p);
     }
 

@@ -57,7 +57,7 @@
             <button id="btn_search" class="btn btn-primary">검색</button>
         </div>
 
-        <form th:action="@{/blog/list}" method="get" id="searchForm" style="flex-direction: column;">
+        <form th:action="@{/blog}" method="get" id="searchForm" style="flex-direction: column;">
             <input type="hidden" id="kw" name="kw" th:value="${kw}">
             <input type="hidden" id="page" name="page" th:value="${paging.number}">
         </form>

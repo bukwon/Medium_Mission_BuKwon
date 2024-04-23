@@ -96,7 +96,7 @@ public class KakaoService {
 
     public String getToken(String code) throws IOException {
         // 인가코드로 토큰받기
-        String host = KAKAO_AUTH_URI + "/oauth/authorize";
+        String host = KAKAO_AUTH_URI + "/oauth/token";
         URL url = new URL(host);
         HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
         String token = "";
