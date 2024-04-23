@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public SiteUser getUser(String username) {
-        Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
+        Optional<SiteUser> siteUser = this.userRepository.findByEmail(username);
         if(siteUser.isPresent()) {
             return siteUser.get();
         } else {

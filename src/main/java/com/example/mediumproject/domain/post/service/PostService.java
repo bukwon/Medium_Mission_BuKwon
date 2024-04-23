@@ -2,6 +2,7 @@ package com.example.mediumproject.domain.post.service;
 
 import com.example.mediumproject.domain.comment.entity.Comment;
 import com.example.mediumproject.domain.post.dao.PostRepository;
+import com.example.mediumproject.domain.post.dto.PostForm;
 import com.example.mediumproject.domain.post.entity.Post;
 import com.example.mediumproject.domain.user.entity.SiteUser;
 import com.example.mediumproject.domain.user.dao.UserRepository;
@@ -79,16 +80,9 @@ public class PostService {
         return this.postRepository.findAll(spec, pageable);
     }
 
-    public void create(String subject, String content, SiteUser user) {
-        Post p = new Post();
-        p.setSubject(subject);
-        p.setContent(content);
-        p.setCreateDate(LocalDateTime.now());
-        p.setAuthor(user);
-        p.setUserName(user.getUsername());
-        p.setROLE_PAID(user.getROLE_PAID());
-        System.out.println("블로그 생성 테스트입니다." + p);
-        this.postRepository.save(p);
+    public void create(SiteUser user, PostForm postForm) {
+        Post post = postForm.toEntity(user);
+        this.postRepository.save(post);
     }
 
     public void modify(Post post, String subject, String content) {

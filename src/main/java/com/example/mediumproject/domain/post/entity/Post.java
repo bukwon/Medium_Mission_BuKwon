@@ -3,8 +3,7 @@ package com.example.mediumproject.domain.post.entity;
 import com.example.mediumproject.domain.comment.entity.Comment;
 import com.example.mediumproject.domain.user.entity.SiteUser;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,12 +12,15 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(length = 200)
+    @Column
     private String subject;
 
     @Column(columnDefinition = "TEXT")

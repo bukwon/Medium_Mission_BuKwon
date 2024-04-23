@@ -1,6 +1,9 @@
 package com.example.mediumproject.post;
 
+import com.example.mediumproject.domain.post.dto.PostForm;
 import com.example.mediumproject.domain.post.service.PostService;
+import com.example.mediumproject.domain.user.entity.SiteUser;
+import com.example.mediumproject.domain.user.entity.UserRole;
 import com.example.mediumproject.domain.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +26,17 @@ class MediumProjectApplicationTests {
             String subject = String.format("무료글:[%03d]",i);
             String content = "내용 무";
             boolean ROLE_PAID = false;
-            this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i),ROLE_PAID));
+            this.postService.create(userService.create("user" + i, "email" + i + "@naver.com", "", false)
+                    , null);
         }
         for (int i = 101; i < 201; i++) {
             String subject = String.format("유료글:[%03d]",i);
             String content = "내용 무";
             boolean ROLE_PAID = true;
-            this.postService.create(subject, content, userService.create(String.valueOf(i),String.valueOf(i)+"@naver.com", String.valueOf(i),ROLE_PAID));
+            this.postService.create(userService.create("user" + i, "email" + i + "@naver.com", "", false)
+                    , null);
         }
     }
-
-
 }
 
 @SpringBootTest

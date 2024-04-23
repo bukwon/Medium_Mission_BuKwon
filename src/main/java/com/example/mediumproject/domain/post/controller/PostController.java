@@ -67,21 +67,26 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String postCreate(PostForm postForm) {
+    public String postCreate(PostForm postForm, Model model) {
+        model.addAttribute("post", postForm);
         return "post_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal) {
+    public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal, Model model) {
         System.out.println("create생성 거쳤습니다.");
+        model.addAttribute("post", postForm);
         if(bindingResult.hasErrors()) {
+            System.out.println("bindingResult = " + bindingResult);
+            System.out.println("binding 통과");
             return "post_form";
         }
         System.out.println("로그인 유효성 검사 통과");
+        System.out.println("principal = " + principal.getName());
         SiteUser siteUser = this.userService.getUser(principal.getName());
         System.out.println("블로그 생성할 때 login 상태 유효성은 검사합니다" + siteUser);
-        this.postService.create(postForm.getSubject(), postForm.getContent(), siteUser);
+        this.postService.create(siteUser, postForm);
         return "redirect:/blog/list";   // 게시글 적은 후 돌아갈 url
     }
 
