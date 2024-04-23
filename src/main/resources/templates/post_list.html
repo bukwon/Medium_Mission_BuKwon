@@ -57,7 +57,7 @@
             <button id="btn_search" class="btn btn-primary">검색</button>
         </div>
 
-        <form th:action="@{/blog/list}" method="get" id="searchForm" style="flex-direction: column;">
+        <form th:action="@{/blog}" method="get" id="searchForm" style="flex-direction: column;">
             <input type="hidden" id="kw" name="kw" th:value="${kw}">
             <input type="hidden" id="page" name="page" th:value="${paging.number}">
         </form>
@@ -78,7 +78,7 @@
 <div class="container mx-auto mt-20 flex-1 flex justify-center">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <!-- 각각의 포스트를 나타내는 부분 -->
-        <div th:each="post : ${paging}" class="max-w-sm rounded overflow-hidden shadow-lg">
+        <doiv th:each="post : ${paging}" class="max-w-sm runded overflow-hidden shadow-lg">
             <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-5">
                     <!-- 게시글 제목과 링크 -->

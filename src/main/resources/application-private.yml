@@ -1,0 +1,10 @@
+kakao:
+  client:
+    id: 7a7a86a0695304c8dc682bf8b951bf1f
+    secret: 0fB9uQkvgFlDAZzpWNkAH5Lq1SSX50ff
+  redirect:
+    uri: http://localhost:8080/kakao/callback
+  auth:
+    uri: https://kauth.kakao.com
+  api:
+    uri: https://kapi.kakao.com

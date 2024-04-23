@@ -9,27 +9,7 @@
 
     <!-- TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-
-    <style>
-        .card-header {
-            background-color: #6610f2;
-            color: white;
-        }
-
-        .btn-save {
-            background-color: #6610f2;
-            color: white;
-        }
-
-        .btn-save:hover {
-            background-color: #4d0c8c;
-        }
-
-        /* TOAST UI 에디터 높이 설정 */
-        #toast-editor {
-            height: 500px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/domain/post/postForm.css">
 </head>
 <body>
 <div class="container my-5">
@@ -41,10 +21,14 @@
             <form th:object="${post}" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="mb-3">
+                    <p th:if="${#fields.hasErrors('subject')}" class="field-error" style="color: red;">
+                        [[${#fields.errors('subject')}]]</p>
                     <label for="subject" class="form-label">제목</label>
                     <input type="text" name="subject" id="subject" class="form-control">
                 </div>
                 <div class="mb-3">
+                    <p th:if="${#fields.hasErrors('content')}" class="field-error" style="color: red;">
+                        [[${#fields.errors('content')}]]</p>
                     <label for="content" class="form-label">내용</label>
                     <!-- TOAST UI 에디터를 적용할 요소 (컨테이너) -->
                     <div id="toast-editor"></div>

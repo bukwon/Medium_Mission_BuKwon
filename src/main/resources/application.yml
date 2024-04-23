@@ -1,5 +1,8 @@
 #DB
 spring:
+  profiles:
+    active: dev
+    include: private
   thymeleaf:
     cache: false
   main:
@@ -26,17 +29,3 @@ spring:
 #Token
 jwt:
   secret-key: secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
-
-oauth:
-  kakao:
-    client-id: 0fB9uQkvgFlDAZzpWNkAH5Lq1SSX50ff
-    url:
-      auth: https://kauth.kakao.com
-      api: https://kapi.kakao.com
-  naver:
-    secret: ErYDAhBaXu
-    client-id: FFNzMrOpyZ5NHYps7b6b
-    url:
-      auth: https://nid.naver.com
-      api: https://openapi.naver.com
-
