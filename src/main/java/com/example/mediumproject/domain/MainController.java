@@ -23,6 +23,6 @@ public class MainController {
 
     @GetMapping("/")
     public String root() {
-        return "redirect:/home/blog";
+        return "redirect:/home";
     }   // 로그인 성공 시 떠야 할 창 공간
 }
