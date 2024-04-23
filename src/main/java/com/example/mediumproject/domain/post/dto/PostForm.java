@@ -33,6 +33,7 @@ public class PostForm {
                 .ROLE_PAID(false)
                 .content(content)
                 .subject(subject)
+                .author(siteUser)
                 .build();
     }
 }
