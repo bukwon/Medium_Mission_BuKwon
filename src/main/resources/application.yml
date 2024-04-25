@@ -29,3 +29,6 @@ spring:
 #Token
 jwt:
   secret-key: secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey
+toss:
+  payments:
+    api-key: ON_SECRET
