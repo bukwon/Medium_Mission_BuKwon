@@ -9,5 +9,6 @@ public class MembershipService {
     }
 
     public void setPaymentComplete(String orderId) {
+        throw new RuntimeException("결제에 성공하셨습니다.");
     }
 }

@@ -100,12 +100,13 @@
         paymentWidget.requestPayment({
             orderId: generateRandomString(),
             orderName: "토스 티셔츠 외 2건",
-            successUrl: window.location.origin + "/success",
-            failUrl: window.location.origin + "/fail",
+            successUrl: window.location.origin + "/membership/success",
             customerEmail: "customer123@gmail.com",
+            failUrl: window.location.origin + "/membership/fail",
             customerName: "김토스",
             customerMobilePhone: "01012341234",
         });
+        console.log("paymentWidget 입니다. " + paymentWidget);
     });
 </script>
 </body>

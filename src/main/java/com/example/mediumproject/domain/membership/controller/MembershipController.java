@@ -23,16 +23,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Controller
+@RequestMapping("/membership")
 public class MembershipController {
     @Value("${toss.payments.api-key}")
     private String API_KEY;
     private MembershipService membershipService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @GetMapping("/membership")
-    public String membership() {
-        return "payments/payments";
-    }
 
     @RequestMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -79,7 +75,6 @@ public class MembershipController {
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
-
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));
 
@@ -113,12 +108,12 @@ public class MembershipController {
      */
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
-        return "/success";
+        return "payments/success";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(HttpServletRequest request, Model model) throws Exception {
-        return "/checkout";
+        return "payments/payments";
     }
 
     /**
@@ -134,9 +129,12 @@ public class MembershipController {
         String failCode = request.getParameter("code");
         String failMessage = request.getParameter("message");
 
+        System.out.println("failCode = " + failCode);
+        System.out.println("failMessage = " + failMessage);
+
         model.addAttribute("code", failCode);
         model.addAttribute("message", failMessage);
 
-        return "/fail";
+        return "payments/fail";
     }
 }
